@@ -4,3 +4,19 @@ __pycache__/
 .ipynb_checkpoints/
 *.pyc
 .venv-audit/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+src/*.egg-info/
+output/
+site/
+.coverage
+# LaTeX build artifacts (keep report.tex and report.pdf)
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz

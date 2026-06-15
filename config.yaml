@@ -1,0 +1,45 @@
+# Single source of truth for the FX volatility analysis.
+# Every notebook/module parameter is read from here so the annualization
+# assumption and windows are visible and consistent in one place.
+
+data:
+  tickers:
+    EURUSD: "EURUSD=X"
+    GBPUSD: "GBPUSD=X"
+    USDJPY: "JPY=X"        # Yahoo quotes USD/JPY under the JPY=X symbol
+  start: "2022-01-01"
+  end: "2024-12-31"
+  snapshot: "data/fx_ohlc_2022_2024.parquet"
+  as_of: "2026-06-14"      # date the snapshot was pulled from Yahoo Finance
+
+indicators:
+  trading_days: 252        # annualization factor == observations per year (trading-day series)
+  vol_windows: [30, 90]    # rolling volatility windows, in TRADING days
+  sma_windows: [20, 50]    # simple moving average windows, in TRADING days
+  rsi_window: 14
+  rsi_method: "wilder"     # "wilder" (canonical) or "cutler" (SMA variant)
+
+risk:
+  var_levels: [0.95, 0.99]
+  rf_annual: 0.0           # risk-free rate used for Sharpe/Sortino
+
+models:
+  ewma_lambda: 0.94        # RiskMetrics decay
+  garch_dist: "t"          # Student-t innovations
+  realized_window: 21      # ~1 month realized-vol target for the forecast horse race
+  oos_split: 0.6           # fraction of the sample used to seed walk-forward forecasting
+
+backtest:
+  fast: 20
+  slow: 50
+  cost_bps: 1.0            # round-trip transaction cost, basis points per unit turnover
+  tsmom_lookback: 60       # time-series-momentum lookback (trading days)
+  target_vol: 0.10         # annualized volatility target for vol-sizing
+  max_leverage: 3.0        # cap on vol-target leverage
+
+evt:
+  threshold_quantile: 0.90 # POT threshold for EVT tails (on standardized residuals)
+
+paths:
+  figures: "figures"
+  output: "output"

@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package and tooling
+        run: |
+          python -m pip install -U pip
+          pip install -r requirements.txt          # exercise the exact runtime pins
+          pip install -e ".[dev,app,docs]"
+
+      - name: Lint (ruff)
+        run: ruff check src tests app scripts
+
+      - name: Type-check (mypy)
+        run: mypy
+
+      - name: Tests + coverage
+        run: pytest --cov=fxvol --cov-report=term-missing
+
+      - name: Number-provenance guard
+        run: python scripts/check_numbers.py
+
+      - name: Streamlit app import smoke
+        run: python app/streamlit_app.py
+        env:
+          PYTHONWARNINGS: ignore
+
+      - name: Build docs
+        run: mkdocs build --strict
+
+      - name: Execute notebook against the committed snapshot (reproducibility gate)
+        run: |
+          python -m ipykernel install --user --name fxvol
+          jupyter nbconvert --to notebook --execute \
+            --ExecutePreprocessor.timeout=1200 \
+            --ExecutePreprocessor.kernel_name=fxvol \
+            --output /tmp/executed.ipynb notebooks/fx_volatility_analysis.ipynb
+
+  docs:
+    # Publish the documentation site to GitHub Pages on pushes to main.
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          python -m pip install -U pip
+          pip install -e ".[docs]"
+      - run: mkdocs gh-deploy --force

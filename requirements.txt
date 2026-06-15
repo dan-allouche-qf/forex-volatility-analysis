@@ -1,4 +1,11 @@
-pandas
-numpy
-matplotlib
-yfinance
+# Runtime dependencies (exact pins for reproducibility).
+# Dev/CI tools live in pyproject.toml [project.optional-dependencies].dev
+numpy==2.4.6
+pandas==3.0.3
+scipy==1.17.1
+matplotlib==3.11.0
+statsmodels==0.14.6
+arch==8.0.0
+yfinance==1.4.1
+pyarrow==24.0.0
+PyYAML==6.0.3
