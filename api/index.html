@@ -1,0 +1,3406 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Conditional volatility, backtested VaR/ES and FX strategies — a reproducible quant study.">
+      
+      
+      
+      
+        <link rel="prev" href="..">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>API reference - FX Volatility, Risk & Strategy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="FX Volatility, Risk &amp; Strategy" class="md-header__button md-logo" aria-label="FX Volatility, Risk & Strategy" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FX Volatility, Risk & Strategy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="FX Volatility, Risk &amp; Strategy" class="md-nav__button md-logo" aria-label="FX Volatility, Risk & Strategy" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    FX Volatility, Risk & Strategy
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data &amp; preprocessing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.data.download_fx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download_fx
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.data.load_ohlc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_ohlc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.data.to_wide_close" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_wide_close
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.data.to_wide_ohlc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_wide_ohlc
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        preprocessing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="preprocessing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.preprocessing.align_close" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        align_close
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="align_close">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.preprocessing.align_close--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.preprocessing.trading_day_summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trading_day_summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indicators-realized-volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicators &amp; realized volatility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.log_returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        log_returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.simple_returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        simple_returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.rolling_volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rolling_volatility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.ewma_volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ewma_volatility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.sma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.rsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rsi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.realized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        realized
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="realized">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.parkinson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        parkinson
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.garman_klass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        garman_klass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.rogers_satchell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rogers_satchell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.realized_variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        realized_variance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.realized_proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        realized_proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.fit_garch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fit_garch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.standardized_residuals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        standardized_residuals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.walk_forward_variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        walk_forward_variance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.walk_forward_garch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        walk_forward_garch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.forecast_losses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forecast_losses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.score_forecasts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        score_forecasts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.diebold_mariano" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diebold_mariano
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        risk
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="risk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.drawdown_curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        drawdown_curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.max_drawdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        max_drawdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.kupiec_pof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kupiec_pof
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.christoffersen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        christoffersen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.risk_table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        risk_table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.pinball_loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pinball_loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.rolling_var_backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rolling_var_backtest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.acerbi_szekely_z2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        acerbi_szekely_z2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.es_backtest_garch_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        es_backtest_garch_t
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.vol_model_var_scorecard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vol_model_var_scorecard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extreme-value-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extreme value theory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.evt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        evt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="evt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.evt.gpd_fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gpd_fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.evt.pot_var_es" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pot_var_es
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.evt.mean_excess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mean_excess
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.evt.conditional_pot_var_es" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        conditional_pot_var_es
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backtesting-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtesting &amp; statistics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backtest
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="backtest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.backtest.sma_crossover_signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sma_crossover_signal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.backtest.tsmom_signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tsmom_signal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.backtest.vol_target_position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vol_target_position
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.backtest.backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backtest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stats_backtest
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stats_backtest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.stationary_bootstrap_indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stationary_bootstrap_indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.sharpe_bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sharpe_bootstrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.probabilistic_sharpe_ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        probabilistic_sharpe_ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.expected_max_sharpe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expected_max_sharpe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.deflated_sharpe_ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        deflated_sharpe_ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnostics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diagnostics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="diagnostics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.diagnostics.diagnostics_table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diagnostics_table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data &amp; preprocessing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.data.download_fx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        download_fx
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.data.load_ohlc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_ohlc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.data.to_wide_close" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_wide_close
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.data.to_wide_ohlc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_wide_ohlc
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.preprocessing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        preprocessing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="preprocessing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.preprocessing.align_close" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        align_close
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="align_close">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.preprocessing.align_close--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.preprocessing.trading_day_summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trading_day_summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#indicators-realized-volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Indicators &amp; realized volatility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.log_returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        log_returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.simple_returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        simple_returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.rolling_volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rolling_volatility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.ewma_volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ewma_volatility
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.sma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.indicators.rsi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rsi
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.realized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        realized
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="realized">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.parkinson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        parkinson
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.garman_klass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        garman_klass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.rogers_satchell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rogers_satchell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.realized_variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        realized_variance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.realized.realized_proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        realized_proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        models
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.fit_garch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fit_garch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.standardized_residuals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        standardized_residuals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.walk_forward_variance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        walk_forward_variance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.walk_forward_garch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        walk_forward_garch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.forecast_losses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        forecast_losses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.score_forecasts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        score_forecasts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.models.diebold_mariano" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diebold_mariano
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Risk
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        risk
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="risk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.drawdown_curve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        drawdown_curve
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.max_drawdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        max_drawdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.kupiec_pof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kupiec_pof
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.christoffersen" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        christoffersen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.risk_table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        risk_table
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.pinball_loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pinball_loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.rolling_var_backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rolling_var_backtest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.acerbi_szekely_z2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        acerbi_szekely_z2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.es_backtest_garch_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        es_backtest_garch_t
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.risk.vol_model_var_scorecard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vol_model_var_scorecard
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extreme-value-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extreme value theory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.evt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        evt
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="evt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.evt.gpd_fit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gpd_fit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.evt.pot_var_es" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pot_var_es
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.evt.mean_excess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mean_excess
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.evt.conditional_pot_var_es" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        conditional_pot_var_es
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backtesting-statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backtesting &amp; statistics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backtest
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="backtest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.backtest.sma_crossover_signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sma_crossover_signal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.backtest.tsmom_signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tsmom_signal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.backtest.vol_target_position" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vol_target_position
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.backtest.backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backtest
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stats_backtest
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="stats_backtest">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.stationary_bootstrap_indices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stationary_bootstrap_indices
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.sharpe_bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sharpe_bootstrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.probabilistic_sharpe_ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        probabilistic_sharpe_ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.expected_max_sharpe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expected_max_sharpe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.stats_backtest.deflated_sharpe_ratio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        deflated_sharpe_ratio
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diagnostics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fxvol.diagnostics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diagnostics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="diagnostics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fxvol.diagnostics.diagnostics_table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diagnostics_table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="api-reference">API reference</h1>
+<p>Auto-generated from the <code>fxvol</code> package docstrings.</p>
+<h2 id="data-preprocessing">Data &amp; preprocessing</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.data" class="doc doc-heading">
+            <code>fxvol.data</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Data acquisition and snapshot loading.</p>
+<p>By default the analysis loads a committed parquet snapshot so results are
+deterministic and network-free. <code>refresh=True</code> re-pulls live from Yahoo Finance.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.data.download_fx" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">download_fx</span><span class="p">(</span><span class="n">tickers</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Download daily OHLC for each pair from Yahoo Finance into a long DataFrame.</p>
+<p>Returns columns: Date, Open, High, Low, Close, pair. Only real trading days
+are returned (no calendar fabrication).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.data.load_ohlc" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">load_ohlc</span><span class="p">(</span><span class="n">refresh</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Load the long-format OHLC table (Date, OHLC, pair).</p>
+<p>Loads the committed snapshot unless <code>refresh=True</code>, in which case it
+re-downloads live and overwrites the snapshot.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.data.to_wide_close" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">to_wide_close</span><span class="p">(</span><span class="n">long</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Pivot the long table to a wide close-price matrix (index=Date, cols=pair).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.data.to_wide_ohlc" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">to_wide_ohlc</span><span class="p">(</span><span class="n">long</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Pivot to a wide OHLC matrix with <code>{pair}_{field}</code> columns.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.preprocessing" class="doc doc-heading">
+            <code>fxvol.preprocessing</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Trading-day alignment.</p>
+<p>Critical design choice: FX trades Monday-Friday, so weekend dates are <em>non-
+observations</em>, not missing data. We therefore NEVER reindex onto a full calendar
+and we NEVER fabricate prices. Pairs are aligned on their actual shared trading
+dates; genuine single-day holiday gaps (a date present for some pairs but not
+others) are forward-filled at the price level only, with returns on such a day
+left to come out near zero rather than inventing a jump.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.preprocessing.align_close" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">align_close</span><span class="p">(</span><span class="n">long</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;union&#39;</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Align pair close prices on real trading dates.</p>
+<h5 id="fxvol.preprocessing.align_close--parameters">Parameters</h5>
+<p>long : long-format OHLC table (Date, OHLC, pair).
+how : "union" keeps every date traded by <em>any</em> pair and forward-fills the
+    rare single-day holiday gaps (default; maximizes usable history).
+    "inner" keeps only dates traded by <em>all</em> pairs (zero fill at all).</p>
+<p>Returns a wide close-price matrix on a pure trading-day index. Guarantees:
+no weekend rows, no NaNs after the first valid observation, no fabricated
+weekend values.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.preprocessing.trading_day_summary" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">trading_day_summary</span><span class="p">(</span><span class="n">wide</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Quick integrity summary used in the notebook to prove no fabrication.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="indicators-realized-volatility">Indicators &amp; realized volatility</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.indicators" class="doc doc-heading">
+            <code>fxvol.indicators</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Return, volatility and technical-indicator computations.</p>
+<p>All functions operate on a trading-day-indexed price/return frame. Annualization
+uses <code>trading_days</code> (== observations per year of the series), so the factor and
+the data frequency are always consistent.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.indicators.log_returns" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">log_returns</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Log returns, <code>ln(P_t / P_{t-1})</code>. Time-additive; the convention used
+throughout for volatility and aggregation.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.indicators.simple_returns" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">simple_returns</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Arithmetic returns, <code>P_t / P_{t-1} - 1</code> (used for P&amp;L compounding).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.indicators.rolling_volatility" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">rolling_volatility</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">trading_days</span><span class="o">=</span><span class="mi">252</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Annualized rolling volatility = rolling std(returns) * sqrt(trading_days).</p>
+<p><code>window</code> is counted in trading days because <code>returns</code> is a trading-day
+series, so a <code>window</code> of 30 is genuinely 30 trading days.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.indicators.ewma_volatility" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ewma_volatility</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.94</span><span class="p">,</span> <span class="n">trading_days</span><span class="o">=</span><span class="mi">252</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Annualized RiskMetrics EWMA volatility.</p>
+<p>Variance recursion <code>v_t = (1-lam) * r_t^2 + lam * v_{t-1}</code> (adjust=False),
+annualized to a volatility.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.indicators.sma" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">sma</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">window</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Simple moving average of prices over <code>window</code> trading days.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.indicators.rsi" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">rsi</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;wilder&#39;</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Relative Strength Index.</p>
+<p><code>method="wilder"</code> uses Wilder's recursive smoothing (EMA with
+<code>alpha = 1/window</code>) - the canonical RSI. <code>method="cutler"</code> uses a simple
+moving average of gains/losses (Cutler's RSI). The two are different
+estimators; the choice is explicit rather than mislabeled.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.realized" class="doc doc-heading">
+            <code>fxvol.realized</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Range-based realized-variance estimators (Parkinson, Garman-Klass,
+Rogers-Satchell).</p>
+<p>The committed snapshot carries full OHLC but the close-only pipeline ignores
+High/Low. Range estimators use the intraday range and are several times more
+efficient than the squared-return proxy. Caveat: they assume no overnight gap,
+no drift (Parkinson) and no jumps -- assumptions that bite in 24/5 FX daily bars,
+so results are reported alongside the r^2 proxy, never as a silent replacement.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.realized.parkinson" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">parkinson</span><span class="p">(</span><span class="n">high</span><span class="p">,</span> <span class="n">low</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Parkinson (1980) daily variance from the high-low range.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.realized.garman_klass" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">garman_klass</span><span class="p">(</span><span class="n">open_</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">close</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Garman-Klass (1980) daily variance from OHLC.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.realized.rogers_satchell" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">rogers_satchell</span><span class="p">(</span><span class="n">open_</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">close</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Rogers-Satchell (1991) daily variance (drift-robust).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.realized.realized_variance" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">realized_variance</span><span class="p">(</span><span class="n">long_ohlc</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="s1">&#39;parkinson&#39;</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Daily range-based variance (decimal return^2 units) for one pair.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.realized.realized_proxy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">realized_proxy</span><span class="p">(</span><span class="n">long_ohlc</span><span class="p">,</span> <span class="n">pair</span><span class="p">,</span> <span class="n">estimator</span><span class="o">=</span><span class="s1">&#39;parkinson&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">100.0</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Range-based realized variance rescaled to (<code>scale</code>*return)^2 units, so it
+is unit-compatible with :func:<code>fxvol.models.walk_forward_variance</code> forecasts
+(drop-in replacement for its <code>realized</code> column when <code>scale=100</code>).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="models">Models</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.models" class="doc doc-heading">
+            <code>fxvol.models</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Conditional-volatility models and an out-of-sample forecast horse race.</p>
+<p>Baselines (EWMA, rolling, naive random-walk) vs GARCH(1,1) Student-t, scored on
+1-day-ahead variance with QLIKE and MSE against the squared-return proxy, with a
+Diebold-Mariano test for significance.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.models.fit_garch" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">fit_garch</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">trading_days</span><span class="o">=</span><span class="mi">252</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Fit a GARCH(p,o,q) with the chosen innovation distribution (<code>o&gt;0</code> =&gt; GJR).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.models.standardized_residuals" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">standardized_residuals</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Standardized residuals z = resid/conditional_vol of a fitted GARCH (unit
+variance under correct specification); the input to EVT tail modelling.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.models.walk_forward_variance" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">walk_forward_variance</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">refit_every</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ewma_lambda</span><span class="o">=</span><span class="mf">0.94</span><span class="p">,</span> <span class="n">roll_window</span><span class="o">=</span><span class="mi">21</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>One-day-ahead variance forecasts on an expanding window (daily units, % scale).</p>
+<p>Returns a DataFrame indexed by the forecast (t+1) date with columns:
+<code>garch, ewma, rolling, naive</code> (variance forecasts) and <code>realized</code> (the
+r_{t+1}^2 proxy). <code>naive</code> is the expanding unconditional (constant) variance.
+GARCH is refit every <code>refit_every</code> steps for speed.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.models.walk_forward_garch" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">walk_forward_garch</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">refit_every</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">min_train</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">))</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Expanding-window 1-step-ahead GARCH(1,1) filter for conditional risk.</p>
+<p>For each out-of-sample date t+1 (using only information up to t) returns the
+conditional volatility forecast and the pieces needed for conditional VaR/ES:</p>
+<ul>
+<li><code>sigma</code> : 1-step conditional volatility, in DECIMAL return units</li>
+<li><code>mu</code>    : fitted constant mean, decimal</li>
+<li><code>nu</code>    : fitted Student-t degrees of freedom (NaN if <code>dist!='t'</code>)</li>
+<li><code>fhs_q_{L}</code> : empirical lower-tail quantile (mass 1-L) of in-sample
+  standardized residuals z = resid/sigma (for Filtered Historical Simulation)</li>
+<li><code>fhs_es_{L}</code> : <code>-mean(z | z &lt;= fhs_q_{L})</code> (positive ES factor)</li>
+</ul>
+<p>GARCH is refit every <code>refit_every</code> steps; the 1-step forecast is recomputed
+every day. No look-ahead: row at t+1 uses only returns up to and including t.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.models.forecast_losses" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">forecast_losses</span><span class="p">(</span><span class="n">wf</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Per-observation QLIKE and MSE loss series per model.</p>
+<p>Observations with a zero realized proxy (degenerate flat days) are dropped so
+QLIKE stays finite; the same mask is applied to every model for fair
+comparison and for the Diebold-Mariano test.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.models.score_forecasts" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">score_forecasts</span><span class="p">(</span><span class="n">wf</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Mean QLIKE and MSE per model (lower is better).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.models.diebold_mariano" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">diebold_mariano</span><span class="p">(</span><span class="n">loss_a</span><span class="p">,</span> <span class="n">loss_b</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Diebold-Mariano test on two loss series (HAC variance, h-1 lags).</p>
+<p>Negative statistic =&gt; model A has lower loss (better) than B.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="risk">Risk</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.risk" class="doc doc-heading">
+            <code>fxvol.risk</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Risk metrics: VaR / Expected Shortfall, drawdown, Sharpe/Sortino, and VaR
+backtests (Kupiec POF + Christoffersen).</p>
+<p>Convention: returns are daily; VaR and ES are reported as POSITIVE loss numbers
+at a confidence <code>level</code> (e.g. 0.95). <code>alpha = 1 - level</code> is the tail mass.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.drawdown_curve" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">drawdown_curve</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Drawdown series (&lt;= 0) from a return stream.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.max_drawdown" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">max_drawdown</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Max drawdown with peak/trough dates and duration (in observations).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.kupiec_pof" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">kupiec_pof</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">exceptions</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Kupiec unconditional-coverage (Proportion Of Failures) test.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.christoffersen" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">christoffersen</span><span class="p">(</span><span class="n">exceedances</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Christoffersen independence + conditional-coverage tests on the 0/1
+exception sequence.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.risk_table" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">risk_table</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">),</span> <span class="n">trading_days</span><span class="o">=</span><span class="mi">252</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Per-pair risk summary used as a headline deliverable.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.pinball_loss" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pinball_loss</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">quantile_pred</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Quantile (pinball/tick) loss at level <code>alpha</code> for a predicted return
+quantile (<code>quantile_pred = -VaR</code>). Lower is better; proper for VaR.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.rolling_var_backtest" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">rolling_var_backtest</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">garch_wf</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">),</span> <span class="n">window</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Backtest UNCONDITIONAL (rolling historical, rolling Student-t) vs CONDITIONAL
+(GARCH-filtered Student-t, Filtered Historical Simulation) 1-day VaR on the same
+out-of-sample dates, scored by breaches, Kupiec, Christoffersen and pinball loss.</p>
+<p><code>garch_wf</code> is the output of :func:<code>fxvol.models.walk_forward_garch</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.acerbi_szekely_z2" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">acerbi_szekely_z2</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">es</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Acerbi-Szekely (2014) Test 2 statistic. E[Z2]=0 under correct ES;
+Z2 &lt; 0 =&gt; ES underestimates tail risk.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.es_backtest_garch_t" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">es_backtest_garch_t</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">garch_wf</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">n_sim</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Acerbi-Szekely Z2 ES backtest for the GARCH-filtered Student-t model, with a
+simulated p-value from the model's own predictive distribution (left tail).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.risk.vol_model_var_scorecard" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">vol_model_var_scorecard</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">wf_var</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">),</span> <span class="n">nu</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Score each volatility model in a :func:<code>fxvol.models.walk_forward_variance</code>
+frame by the quality of the 1-day VaR it implies (breaches vs target,
+Christoffersen independence, pinball loss). Every model gets the SAME
+distributional assumption (Normal if <code>nu</code> is None, else standardized
+Student-t), so the comparison isolates the volatility forecast itself.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="extreme-value-theory">Extreme value theory</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.evt" class="doc doc-heading">
+            <code>fxvol.evt</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Extreme Value Theory tails: Peaks-Over-Threshold (Generalized Pareto) on
+GARCH-standardized residuals (McNeil-Frey: GARCH for the body dynamics, EVT for
+the tail). A single fitted Student-t imposes a symmetric polynomial tail; EVT lets
+the data choose the tail index.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.evt.gpd_fit" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">gpd_fit</span><span class="p">(</span><span class="n">losses</span><span class="p">,</span> <span class="n">threshold_quantile</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Fit a Generalized Pareto Distribution to exceedances of <code>losses</code> over a
+high threshold (loc fixed at 0). <code>losses</code> are positive tail values
+(e.g. <code>-standardized_residual</code>).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.evt.pot_var_es" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pot_var_es</span><span class="p">(</span><span class="n">losses</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">threshold_quantile</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>POT VaR/ES at confidence <code>level</code> on the scale of <code>losses</code> (standardized).</p>
+<p>Uses the GPD tail estimator F-bar(x) = (Nu/n)(1 + shape*(x-u)/scale)^(-1/shape).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.evt.mean_excess" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">mean_excess</span><span class="p">(</span><span class="n">losses</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Mean-excess function e(u) = E[X-u | X&gt;u] over a grid of thresholds, used to
+justify the POT threshold (linear-in-u region indicates GPD applicability).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.evt.conditional_pot_var_es" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">conditional_pot_var_es</span><span class="p">(</span><span class="n">sigma_next</span><span class="p">,</span> <span class="n">std_resid_losses</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">threshold_quantile</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>McNeil-Frey conditional VaR/ES: POT tail of standardized-residual losses,
+rescaled by the 1-step conditional volatility <code>sigma_next</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="backtesting-statistics">Backtesting &amp; statistics</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.backtest" class="doc doc-heading">
+            <code>fxvol.backtest</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Vectorized SMA-crossover backtest with honest accounting.</p>
+<p>No look-ahead: the position held on day <code>t</code> is decided from the signal observed
+at the close of <code>t-1</code> (<code>signal.shift(1)</code>), i.e. next-bar execution.
+Transaction costs are charged on turnover. A buy-and-hold benchmark is always
+returned for comparison.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.backtest.sma_crossover_signal" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">sma_crossover_signal</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">fast</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">slow</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Long/flat target position (1/0) from an SMA crossover, decided at each close.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.backtest.tsmom_signal" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">tsmom_signal</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">lookback</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Time-series-momentum signal: +1/-1 = sign of the trailing <code>lookback</code>-day
+log return (Moskowitz-Ooi-Pedersen). Long/short, decided at each close.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.backtest.vol_target_position" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">vol_target_position</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">forecast_vol</span><span class="p">,</span> <span class="n">target_vol</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">max_leverage</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Scale a signal to a constant annualized volatility target using a
+(lagged-safe) conditional-vol forecast: <code>pos = signal * target/forecast</code>,
+capped at <code>max_leverage</code>. <code>forecast_vol</code> must use only info up to t.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.backtest.backtest" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">backtest</span><span class="p">(</span><span class="n">prices</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">cost_bps</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">trading_days</span><span class="o">=</span><span class="mi">252</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Backtest a long/flat <code>signal</code> on <code>prices</code> with per-turnover costs.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.stats_backtest" class="doc doc-heading">
+            <code>fxvol.stats_backtest</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Statistical significance of backtests.</p>
+<p>Turns point-estimate Sharpe ratios into inferential claims: a stationary block
+bootstrap (Politis-Romano) for confidence intervals, the Probabilistic Sharpe
+Ratio (Bailey &amp; Lopez de Prado) accounting for skew/kurtosis and sample size, and
+the Deflated Sharpe Ratio that discounts for the number of configurations tried.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.stats_backtest.stationary_bootstrap_indices" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">stationary_bootstrap_indices</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">expected_block</span><span class="p">,</span> <span class="n">n_boot</span><span class="p">,</span> <span class="n">rng</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Politis-Romano stationary bootstrap row indices, shape (n_boot, n).</p>
+<p>Block lengths are geometric with mean <code>expected_block</code> (probability
+<code>p = 1/expected_block</code> of starting a fresh block each step), preserving
+serial dependence in the resampled series.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.stats_backtest.sharpe_bootstrap" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">sharpe_bootstrap</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">trading_days</span><span class="o">=</span><span class="mi">252</span><span class="p">,</span> <span class="n">expected_block</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Bootstrap distribution of the annualized Sharpe ratio.</p>
+<p>Returns the point estimate, a 95% percentile CI, and the bootstrap
+probability that the true Sharpe is &lt;= 0.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.stats_backtest.probabilistic_sharpe_ratio" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">probabilistic_sharpe_ratio</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">sr_benchmark</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>PSR: probability the true (per-period) Sharpe exceeds <code>sr_benchmark</code>,
+adjusting for non-normality (skew, kurtosis) and sample size.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.stats_backtest.expected_max_sharpe" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">expected_max_sharpe</span><span class="p">(</span><span class="n">var_trials_sr</span><span class="p">,</span> <span class="n">n_trials</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Expected maximum (per-period) Sharpe across <code>n_trials</code> independent trials
+under the null of zero true Sharpe (Bailey &amp; Lopez de Prado).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.stats_backtest.deflated_sharpe_ratio" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">deflated_sharpe_ratio</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">n_trials</span><span class="p">,</span> <span class="n">var_trials_sr</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>DSR: PSR against the expected-maximum-Sharpe benchmark for <code>n_trials</code>
+configurations, i.e. the probability the result survives selection bias.
+Requires <code>n_trials &gt;= 2</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="diagnostics">Diagnostics</h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fxvol.diagnostics" class="doc doc-heading">
+            <code>fxvol.diagnostics</code>
+
+
+</h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Econometric diagnostics: normality, stationarity, autocorrelation and ARCH
+effects. Claims of "fat tails" / "volatility clustering" in the write-up are
+substantiated by these tests rather than asserted.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fxvol.diagnostics.diagnostics_table" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">diagnostics_table</span><span class="p">(</span><span class="n">returns</span><span class="p">,</span> <span class="n">prices</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Per-pair diagnostics table.</p>
+<p>Columns: skew, excess kurtosis, Jarque-Bera (p), ADF on returns (p),
+KPSS on returns (p), Ljung-Box on returns and on squared returns (p),
+and Engle ARCH-LM (p). Low normality p-value =&gt; reject normality (fat tails);
+low ARCH-LM / squared-return Ljung-Box p-value =&gt; volatility clustering.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
